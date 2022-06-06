@@ -1,0 +1,3 @@
+# Management Model
+
+The default management model is...

@@ -1,0 +1,19 @@
+--- 
+title: "Technical documentation for the Hake MSE"
+author: "Kristin Marshall"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  This is bookdown version of the technical documentation for the Hake MSE closed loop simulation model. 
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+---
+
+# About
+
+This book is a living document of the technical details of the Hake MSE simluation model. 
+```
