@@ -1,0 +1,3 @@
+# Management Model
+
+We use a stepwise F40 management model that determines the total allowable catch based on the spawning potential ratio (SPR), as specified in the Treaty. SPR is calculated as: where the goal is to reach SPR = 0.4 by adjusting the F component of Z. S0,SPR is the spawning potential ratio with no fishing (i.e., F = 0, therefore Z = M). We then convert the fishing mortality rate that leads to SPR = 0.4, Feq, to a harvest rate as H = 1 -- exp(--Feq), and set the baseline TAC according to: (18) (19) (20) where Vy is the vulnerable biomass (the biomass available to catch by the fishery, i.e., ΣNa,ysawa).

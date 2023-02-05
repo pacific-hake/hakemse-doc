@@ -1,0 +1,12 @@
+# Conditioning the operating model
+
+An important step when developing an operating model is to condition it, or compare its performance against available data, and tune its parameterization to roughly match observations or hypothesized phenomena. Using a pattern-oriented modeling (POM) approach, the goal of conditioning is to build models that capture the important structural dynamics of a system or population (Grimm et al. 2005, Kramer-Schadt et al. 2007). Here, we focus model conditioning on the aspects of the model that make it differ from the estimation model: country-specific fishery and survey data. We used the following data for conditioning:
+•
+Catches divided into values for each area.
+•
+Age composition in catches from Canada and the United States (by fleet).
+•
+Country-specific survey biomass estimates.
+•
+Country-specific survey age compositions.
+To initialize the model, we used a range of the estimated parameters from the maximum likelihood assessment model (Table 4). Parameters from the assessment model should be used with care, as they depend on the assumptions and constraints imposed by that model in particular (Punt et al. 2016). Nevertheless, by using them as a starting point, the operating model will produce retrospective patterns of survey estimates and catches that are comparable in scale to the observed quantities. Parameters that are unique to the operating model are those related to movement and country-specific selectivity (i.e., Canada catches larger fish than the standard selectivity), as well as a 10% increase in the unfished recruitment. Conditioning was completed by changing the movement parameters (Equation 12) until country-specific patterns adequately matched available country-specific data. Additionally, we adjusted the fishing selectivity in Canada to conform with their higher fraction of older individuals in their catch.

@@ -1,0 +1,9 @@
+# Observation Model
+
+The goal of the observation model is to produce output similar to the empirical data available from the fishery and the fishery-independent survey. The observation model generates total coastwide catch data every year as:
+(15)
+Fishery and survey age compositions are also generated per year: js, jF. For the fishery, the numbers at age in the catch (Equation 14) are found by dividing biomass at age in the catch by weight at age. Compositions are:
+where Ny,a,F is the abundance of individuals at age in the catch. All ages over 15 are summed up for both the fishery and the scientific survey.
+The model generates observed biomass biennially at a coastwide scale to mimic the binational acoustic trawl survey:
+
+where q is the catchability coefficient, and sa is the survey selectivity. We assume that the survey takes part in the third quarter of the year with error ∈s ~ Lognormal(C,s2survey). The standard deviation comprises two different values, s2surv and s2s,y, where s2surv is a constant variance and s2s,y is a standard deviation specific to the survey years taken from the kriging of the acoustic data (Berger et al. 2019).

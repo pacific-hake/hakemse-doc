@@ -1,0 +1,28 @@
+project:
+  type: book
+
+book:
+  title: "hakemse-book"
+  author: "Kristin Marshall"
+  date: "12/5/2022"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - om.qmd
+    - obm.qmd
+    - estm.qmd
+    - mngm.qmd
+    - cond.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+

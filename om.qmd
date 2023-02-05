@@ -1,0 +1,59 @@
+# Operating Model
+
+The operating model is an age-structured model with similar structure to the operational hake stock assessment model (Edwards et al. 2018), but with movement occurring between two separate spatial areas, defined by the international (and quota allocation) boundary. Otherwise, we use the same equations and biological dynamics as in the production assessment model; we describe them in detail below. The time scale of the model is four three-month seasons per year, which allows fish to move within a year and subsequently return to spawn at a given area in the beginning of the following year. We denote years as y and the seasonal time scale as t (ranging from \[1;t~end~\] to distinguish between processes that happen among years and within seasons.
+
+## Defining unfished conditions
+
+The unfished age distribution is defined based on natural mortality and unfished recruitment, estimated from the coastwide production assessment model and distributed across the two areas:
+
+where Wi is a parameter that describes the proportion of unfished recruits and the proportion of unfished spawning biomass in each area, R0 is the coastwide unfished recruitment, a is age, A is the plus-group age, and Ma is the natural mortality at age. While the operating model allows for varying natural mortality at age, in all the simulations presented in this report, M is constant across ages. The unfished age distribution results in unfished spawning biomass in each area as:
+
+where wya is the age-specific weight of fecund individuals and 0.5 assumes that half of the population is female.
+
+## Initializing numbers at age
+
+In order to match the structure of the coastwide hake stock assessment, the initial conditions leading up to the fishery include recruitment deviations. The first year of the simulation (1966) is therefore initialized with the following age distribution:
+
+where Na is the numbers at age, sR is the standard deviation of recruitment deviations, and by is an annual bias adjustment fraction (Methot et al. 2011). To be consistent with the hake stock assessment, we assume by = 0 in the years leading up to the fishery, and R̃y are annual recruitment deviations estimated in the coastwide assessment model that are assumed to be normally distributed with 0 mean.
+
+## Reproduction
+
+Recruitment is assumed to occur at the beginning of the year (i.e., t = 1) and follows area-specific Beverton--Holt stock recruitment curves with annual deviations: where h is steepness of the stock recruitment curve and Sy,i is the spawning biomass on first day of the year, calculated as Sy,i = ΣaNy,a,i,t=1wy,a. Bias adjustment (0.5sR2) is needed so that the distribution of exponentiated recruitment deviations has a mean equal to 1 (Methot et al. 2011). We also apply an annual bias adjustment fraction, b, as an input to the model following Methot et al. (2011). We use the annual bias adjustment fraction for two main reasons: 1) to achieve a historic biomass distribution similar to that obtained by the current hake stock assessment, and 2) in future projections we aim to have a coastwide unfished spawning biomass close to the value of S0 estimated in the coastwide stock assessment. (3) (4) where y1b...y4b are breakpoints for the change in bias adjustment. Bias adjustment in the future is implemented in the operating model such that under no fishing, S ≈ S0. Since recruitment is lognormally distributed, not implementing a bias adjustment in the future would cause the average biomass to be higher than the unfished biomass. We therefore set b = 0.5 for future years, which leads to a median SSB / SSB0 ≈ 1 (see different values of b in Figure 2).
+
+## Growth
+
+Growth is not modeled in the operating model. Instead, it follows the empirical weight at age approach used in the Pacific hake stock assessment (Grandin et al. 2016). As in the stock assessment model, during 1976--2018, weight at age is derived directly from sampling. Prior to 1976 and during future projections, we use the time-series average weight at age of the empirical samples. The same empirical data used in the operational stock assessment model are used in the operating and estimation models. One weight-at-age matrix is used for the fishery and spawning biomass, and another for the survey.
+
+## Projecting numbers at age
+
+Numbers at age are projected from the last season of a year (t = tend) to the first season of the next using:
+
+Within a year, at seasonal intervals, the fish are subject to the total mortality, Zy,t,a,i = sy,a,iFy,t,i + Mt,a / tend, where sy,a,i is the age-, year-, and area-specific fishing selectivity, and Fy,t,i is the fishing mortality occurring in that particular season. Seasonal movement is a function of the movement matrix f(wtend,a,i),described below.
+
+## Fishing
+
+We model selectivity for both the fishery and the acoustic trawl survey as an approximation of a trawl selectivity curve with four and five parameters for the survey and fishery, respectively. We assume that fishery selectivity does not change within a year, and that the acoustic trawl survey selectivity is constant within and across years. Fishery selectivity is assumed constant from the years 1965--90, and during the projections from 2018 onwards. From 1991--2017, fisheries selectivity is time-varying at yearly increments imposed by annual deviations from the constant selectivity. The years where selectivity is constant are modeled as: where s′a,i is the cumulative sum over ages of the selectivity parameter p: Finally, s′max,i is the maximum value of s′a,i when a \< amin \| sa,i = 0, and when a \> amax \| sa,i = samax. For the historic years when selectivity is annually variable, pi is allowed to vary as: where ∈y,a is an annual selectivity deviation assumed to be normally distributed with variance ssel. amin denotes the age below which sa = 0, and amax denotes the age above which sa = sa--1. In the future projections of the MSE, we assume that the selectivity is equal to the baseline selectivity, with the exception of the selectivity scenario, which is further explained in Section 7.2. Additionally, the selectivity can vary by area depending on the scenario and model conditioning (see Section 5).
+
+## Spatial dynamics
+
+To model the spatial distribution of Pacific hake, we assume there are n areas, between which the fish can move. In the current analysis, it is simplified to two areas. First, we define the beginning of the first season in the first year of the historic period (1966), (7) (8) (9) (10)
+
+where W is an nspace length vector that sums to 1 and defines the fraction of fish in each of the spatial areas, and i denotes the areas from i...nspace going from north to south. This initial distribution assumes spatial independence of age in the first year of the simulation. When the model is projected forward in time, fish move between areas depending on their age, the season, and which area they are in at the beginning of that season. Specifically, we model the movement as a matrix that specifies the proportion of fish that enter or leave an area. We assume mortality occurs before movement, such that for seasons t = 2...tend, within year y,
+
+where wt,a,i is the movement matrix.
+
+Northward movement rates (from i = 2 to i = 1) are modeled as a saturating function of age for age-2 and older in the first three seasons, to capture the age-based distribution patterns observed in the summer acoustic trawl survey. In the final season, a fixed but lower movement rate allows some northward movement, but keeps the majority of the population that has not yet moved north in U.S. waters (Area 2), where most spawning occurs:
+
+where kmax is the asymptotic movement rate, g determines the slope toward the asymptotic movement rate, a50 is the age at 50% of asymptotic movement rate, and kout is a movement rate that allows some small amount of movement between the two areas, separate from the large-scale migration. We assume age-0 and age-1 fish do not migrate.
+
+Southward movement rates are constant across age-2 and older and applied such that fish in the northern area (Area 1) move south with some probability in each season: (11) (12) where kwin is the southward migration rate in the first season and kreturn is the southward movement rate in the final season. Movement parameters were adjusted during model conditioning to match observed spatial data. Final values used for the set of projections we present in this document are specified here and in Table 4: 1. kreturn = 0.85, meaning 85% of all spawning biomass present in the northern area (i = 1) move south in the last season of the year, so they are present to spawn on 1 January in the following year; and 2. kout = 0.05, such that movement other than the seasonal migration pattern is allowed, but rare. The seasonal, country- and age-specific movement is visualized in Figure 3.
+
+## Catch
+
+We model catch with the standard Baranov catch equation, but applied to each season and area: (14) where wy,a is the empirical weight at age. The operating model iteratively solves for the fishing mortality, Ft, each season based on the catch using the hybrid method (Methot and Wetzel 2013).
+
+## Parameterizing the two-area, four-season operating model
+
+We initialize the operating model by using the parameters from the 2019 hake stock assessment (Berger et al. 2019), including life history parameters, selectivity, and recruitment deviations (see Table 4). The parameters are then adjusted to fit the available spatial data (divided into two areas representing the United States and Canada). The spatial data include survey biomass (assumed to occur in the third season of the year, i.e., July--September), survey age compositions, and age compositions from country-specific catch. During the historic period, the model uses the country-specific catch observed to calculate the country-specific fishing mortality required to achieve that catch using the hybrid method (Methot and Wetzel 2013). For future projections, the catch is distributed among seasons according to Table 5 , which is the average of the last ten years.
+
+We assume that the unfished recruitment used in the stock recruitment relationship (R0) is divided between the two countries as R0,CAN = 0.25R0 and R0,USA = 0.75R0, but that steepness, h, is the same, creating two similar productivity relationships. Since, effectively, most mature biomass moves out of Canada before the spawning season, the recruitment in Canada throughout the time series is less than 25% of the total recruitment, on average. We also assume that the recruitment deviations in any given year are the same in both areas. For future projections, the total catch is divided between the two countries, according to the Treaty, as 73.88% allocated to the United States and 26.12% allocated to Canada. In future projections, if the allocated catch exceeds 90% of the vulnerable biomass in a country, we assume that the extracted catch becomes 75% of the biomass available to the fishery in that area and season. In practice, this means that the realized catch can be lower than the TAC because of a mismatch between the distribution of Pacific hake and the country-specific fisheries.

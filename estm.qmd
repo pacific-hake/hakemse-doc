@@ -1,0 +1,32 @@
+# Estimation Model
+
+The estimation model (EM) is a standard age-integrated model designed to mimic the production assessment model currently in use by JTC. The EM has similar dynamics to the OM, the main exceptions being related to movement, spatial dynamics, fishery selectivity (i.e., the same equations as above, but excluding Equations 10–12) and the use of an annual instead of a quarterly time-step. The parameters are estimated by minimizing the negative joint log-likelihood function comprising eight different components, where four are fit to data and four are penalty functions for parameter deviations, as follows (~ denotes “data”):
+•
+Fit of the survey data as a lognormal distribution, B̃y ~ Lognormal(By, s2s,adj). The adjusted standard deviation is s2s,adj = ss2 + s2s,y, where ss2 is a constant survey variance term accounting for survey error, and s2s,y is an additional time-varying variance term calculated externally as a part of the survey kriging and extrapolation procedures.
+•
+Fit to the natural logarithm of total catches as a lognormal distribution, C̃y ~ Lognormal(C, sC2), with standard deviation sC2 = 0.01 to closely match observed and modeled catches.
+•
+A Dirichlet-multinomial fit to age composition data from both survey and catches:
+logL(j, q|j̃, n) = logG(n + 1) – ΣlogG(nj̃ + 1) + logG(qn) – logG(n + qn) +
+Σ(logG(nj̃ + qnj) – logG(qnj)), where n is the number of samples in the observations and q is the Dirichlet-multinomial shape parameter.
+•
+A penalty for recruitment deviations away from 0 as .
+•
+A penalty for selectivity deviations (∈
+a,y) away from 0 as .
+•
+A penalty on prior assumption of steepness, h, as a beta-function, –log(Lh) ~ beta(h, a, b),
+where a = t(1 – m) and b = tm. and
+.
+•
+A penalty for prior assumption of natural mortality lognormal deviations away from 0.2,
+(17)
+.
+
+The estimation model is fit using the software TMB (Template Model Builder; Kristensen et al. 2016). To fit a model in TMB, a template is constructed that specifies the likelihood function as an objective function of the biological model. The template is then called from R, which uses a gradient-based nonlinear minimizer to identify the value of the parameters that minimize the likelihood function. The model was written in TMB to increase the transparency of the code; it also gains significant speed increases over the Stock Synthesis (SS) version of the model.
+
+
+## Comparison of the MSE estimation model (TMB) with the production Pacific hake stock assessment model (SS)
+
+The estimation model we used in this MSE was written in TMB to facilitate improved speed, transparency, and seamless integration with R (the environment running the OM). This is in comparison with Stock Synthesis (SS), the framework used for the current production hake stock assessment, which relies on ADMB (AD Model Builder; Edwards et al. 2018). Here, we compare some key quantities (spawning biomass and survey biomass) between the models. There are two main differences between the EM and the maximum likelihood stock assessment model: 1) we do not include ageing error in the EM or OM, and 2) annual fishing mortality is estimated as a yearly parameter, rather than using the “hybrid method” (Methot and Wetzel 2013). The differences in frameworks (i.e., TMB for the EM and ADMB for the assessment model) might also lead to slightly different parameter estimations, as the frameworks have slightly different methods to deal with parameters at the boundaries of their distributions. Furthermore, the final model used for management in the stock assessment is a Markov chain Monte Carlo (MCMC) Bayesian model, while here, we compare with the maximum likelihood model. For comparison between the MCMC and maximum likelihood models, see Edwards et al. (2018).
+The MSE EM estimates 274 parameters from 1965–2018, and the number of parameters increases by two for each year projected. The EM performs the hake assessment in under four seconds on a 16 GB RAM, i7 four-core laptop, while the standard deviations take an additional six seconds to calculate. This represents at least a tenfold improvement in speed over the current production stock assessment model. The estimation from the EM (in TMB) resembles the production assessment model (in SS) closely, by deriving spawning biomass and survey values that are almost identical (Figure 4). The small difference in the beginning of the time series is attributed to very slightly different estimations of the initial age structure. We furthermore visually analyzed the parameter estimations (not included here), and verified their resemblance to the stock assessment model.
